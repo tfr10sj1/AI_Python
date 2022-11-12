@@ -1,0 +1,11 @@
+Create a customer using  add_customer(name, pnr),
+Store data such as name and pnr in a dectinary in form ID as a key and pnr, name as a value in tupel in the dectinary 
+
+
+
+
+
+Account hanterar
+- Saldo
+- kontotyp
+- kontonummer
