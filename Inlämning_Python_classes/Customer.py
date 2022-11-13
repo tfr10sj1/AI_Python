@@ -1,38 +1,45 @@
-from Account import Account as ac
-class Customer(ac):
-    cusomers_id_list = []
-    id_name_pnr_acount_data = {}
+id_name_pnr_acount_data = {}
+customer_id = 0
+gname = ""
+gpnr = 0
 
+class Customer():
     def __init__(self, name, pnr):
-        super().__init__(self)
-        self.id = 0000000
-        self.et_customer_id()
-        self.name = name
-        self.pnr = pnr
         #self.transactions = transactions
-        self.id_name_pnr_acount_data[self.id] = self.id +":"+ self.name +":"+ self.pnr +":"
-        f = open("demofile2.txt", "a")
-        f.write(self.id +":"+ self.name +":"+ self.pnr +":"+ ac.Account.account_nbr_acount_type_balance_list)
-        f.close()
+        global gname, gpnr, customer_i, id_name_pnr_acount_data
+        gname = name
+        gpnr = pnr
+        print(self.add_new_customer())
+        
+    def add_new_customer(self):
+        global gname, gpnr, customer_i, id_name_pnr_acount_data
+        if str(gpnr) not in str(id_name_pnr_acount_data.values()):
+            self.set_customer_id()
+            id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
+            return True
+        else:
+            print("You are already a customer!")
+            return False
 
-    def change_name(self, Id, new_name):
-        if self.Id == self.id:
-            self.name = new_name
-            self.id_name_pnr_acount_data[self.id] = self.id +":"+ self.name +":"+ self.pnr +":"
-   
-    def get_customer_info(self, Id):
-        if self.Id == self.id:
+    def change_name(self, new_name):
+        global id_name_pnr_acount_data, customer_id, gname, gpnr
+        gname = new_name
+        id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
+
+    def get_customer_info(self):
             print("Customer data: ")
-            print("Pnr: ", self.pnr)
             print(" ")
-            print("Full name: ", self.name)
-            print(" ")
-            
+            print("Pnr: ", gpnr)
+            print("Full name: ", gname)
+            print("All_Customers", id_name_pnr_acount_data)
             
     def set_customer_id(self):
-        nbr = 111111
-        while nbr in self.cusomers_id_list :
-              nbr += 1
+        global customer_id
+        if customer_id == 0:
+            customer_id = 111111
         else:
-            self.id = nbr
-            self.cusomers_id_list(nbr)
+            customer_id += 1
+
+#   f = open("demofile2.txt", "a"
+#   f.write(self.id +":"+ self.name +":"+ self.pnr +":"+ ac.Account.account_nbr_acount_type_balance_list)
+#   f.close()

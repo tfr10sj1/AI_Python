@@ -1,5 +1,5 @@
 class Bank:
-    def __init__(self, account_id, name, pnr, amount, *transactions , **all_acounts):
+    def __init__(self, account_id, name, pnr, amount, **transactions , **all_acounts):
         self.account_id = account_id
         self.name = name
         self.pnr = pnr
