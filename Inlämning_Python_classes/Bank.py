@@ -1,17 +1,13 @@
 class Bank:
-    def __init__(self, account_id, name, pnr, amount, **transactions , **all_acounts):
-        self.account_id = account_id
-        self.name = name
-        self.pnr = pnr
-        self.amount = amount
-        self.transactions = transactions
-        self.all_accounts = all_acounts
-        self.balance = 0
-    def _load():
+    def __init__(self):
+        self._load()
+    
+    def _load(self):
         "Läser in text filen och befolkar listan som ska innehålla kunderna."
         f = open("customers.txt", "r")
         for x in f:
             print(x)
+            
     def ger_customers():
         "do somthing" 
     
