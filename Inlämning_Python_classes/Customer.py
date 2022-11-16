@@ -6,13 +6,13 @@ gpnr = 0
 class Customer():
     def __init__(self, name, pnr):
         #self.transactions = transactions
-        global gname, gpnr, customer_i, id_name_pnr_acount_data
+        global gname, gpnr, customer_id, id_name_pnr_acount_data
         gname = name
         gpnr = pnr
         print(self.add_new_customer())
         
     def add_new_customer(self):
-        global gname, gpnr, customer_i, id_name_pnr_acount_data
+        global gname, gpnr, customer_id, id_name_pnr_acount_data
         if str(gpnr) not in str(id_name_pnr_acount_data.values()):
             self.set_customer_id()
             id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
