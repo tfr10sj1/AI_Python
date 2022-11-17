@@ -1,50 +1,40 @@
 class Bank:
     customer_info = {}
-    account_info = []
-    info = ""
-    customer_id = ""
-    name = ""
-    pnr = ""
-    balance = ""
-    new_account_nbr = ""
-    
     def __init__(self):
         self._load()
     
-    def _load(self):
+    def _load(self):        
         with open("customers.txt", 'r') as file:
             data = [line.strip() for line in file]
             
         for line in data: 
-            global customer_info, info, customer_id, name, pnr, balance, new_account_nbr
+            global customer_info
             customer_id, name, pnr,  *accounts = line.split(":")
-            #print(customer_id, name, pnr, accounts) 
-            #account_info.append(customer_id)
-            #account_info.append(name)
-            #account_info.append(pnr)
             info = name + ":" + pnr
+            
             for item in accounts:
                 if("#" in item):
                     balance, new_account_nbr = item.split("#")
-                    #account_info.append(balance)
-                    #account_info.append("#")
-                    #account_info.append(new_account_nbr)
                     info += ":" + balance + "#" + new_account_nbr
                 else:
-                    #print(item)
-                    #account_info.append(item)
                     info += ":" + str(item)
+                    
             self.customer_info[customer_id] = info 
-                #info = ""      
-        #print(self.customer_info)
-
-    def ger_customers(self):
-        return self.customer_info
-    
+            
+    def get_customers(self):
+        for key in self.customer_info: 
+            name, pnr,  *accounts = self.customer_info[key].split(":")
+            print(name, pnr)
     def add_customer(name, pnr):
         "add customer"
-    def get_customer(pnr):
-        ""
+    def get_customer(self, pnr):
+        self.customer_info
+        for i in self.customer_info:
+            if str(pnr) in self.customer_info[i]:
+                name, pnr,  *accounts = self.customer_info[i].split(":")
+                print(name, pnr, i, accounts)
+            else:
+                return False
     def change_customer_name(name, pnr):
         ""
     def remove_customer(pnr):
