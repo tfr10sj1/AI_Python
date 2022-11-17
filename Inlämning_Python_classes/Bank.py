@@ -25,16 +25,15 @@ class Bank:
         for key in self.customer_info: 
             name, pnr,  *accounts = self.customer_info[key].split(":")
             print(name, pnr)
+            
     def add_customer(name, pnr):
         "add customer"
     def get_customer(self, pnr):
-        self.customer_info
         for i in self.customer_info:
             if str(pnr) in self.customer_info[i]:
                 name, pnr,  *accounts = self.customer_info[i].split(":")
                 print(name, pnr, i, accounts)
-            else:
-                return False
+                
     def change_customer_name(name, pnr):
         ""
     def remove_customer(pnr):
