@@ -3,16 +3,18 @@ customer_id = 0
 gname = ""
 gpnr = 0
 
+
 class Customer():
-    def __init__(self, name, pnr):
+    def __init__(self):
         #self.transactions = transactions
         global gname, gpnr, customer_id, id_name_pnr_acount_data
-        gname = name
-        gpnr = pnr
-        print(self.add_new_customer())
+     
         
-    def add_new_customer(self):
+    def add_new_customer(self, name, pnr):
         global gname, gpnr, customer_id, id_name_pnr_acount_data
+        gname = self.name = name
+        gpnr = self.pnr = pnr
+       
         if str(gpnr) not in str(id_name_pnr_acount_data.values()):
             self.set_customer_id()
             id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
@@ -25,13 +27,15 @@ class Customer():
         global id_name_pnr_acount_data, customer_id, gname, gpnr
         gname = new_name
         id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
-
+        return id_name_pnr_acount_data[customer_id]
+    
     def get_customer_info(self):
-            print("Customer data: ")
-            print(" ")
-            print("Pnr: ", gpnr)
-            print("Full name: ", gname)
-            print("All_Customers", id_name_pnr_acount_data)
+        global id_name_pnr_acount_data, customer_id, gname, gpnr
+        print("Customer data: ")
+        print(" ")
+        print("Pnr: ", gpnr)
+        print("Full name: ", gname)
+        print("All_Customers", id_name_pnr_acount_data)
             
     def set_customer_id(self):
         global customer_id
