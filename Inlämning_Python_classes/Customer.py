@@ -6,15 +6,13 @@ gpnr = 0
 
 class Customer():
     def __init__(self):
-        #self.transactions = transactions
         global gname, gpnr, customer_id, id_name_pnr_acount_data
      
-        
     def add_new_customer(self, name, pnr):
         global gname, gpnr, customer_id, id_name_pnr_acount_data
         gname = self.name = name
         gpnr = self.pnr = pnr
-       
+        
         if str(gpnr) not in str(id_name_pnr_acount_data.values()):
             self.set_customer_id()
             id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
@@ -43,7 +41,3 @@ class Customer():
             customer_id = 111111
         else:
             customer_id += 1
-
-#   f = open("demofile2.txt", "a"
-#   f.write(self.id +":"+ self.name +":"+ self.pnr +":"+ ac.Account.account_nbr_acount_type_balance_list)
-#   f.close()
