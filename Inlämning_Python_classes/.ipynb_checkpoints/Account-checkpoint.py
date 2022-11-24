@@ -11,7 +11,6 @@ class Account():
     def add_new_account(self):
         self.set_account_nbr()
         account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+str(balance) + "#"
-       # print(account_nbr_account_type_balance_list)
         return account_nbr_account_type_balance_list
     
     def show_account_info(self):
