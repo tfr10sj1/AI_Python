@@ -6,7 +6,7 @@ gpnr = 0
 
 class Customer():
     def __init__(self):
-        global gname, gpnr, customer_id, id_name_pnr_acount_data
+        pass
      
     def add_new_customer(self, name, pnr):
         self.name = name
@@ -14,11 +14,9 @@ class Customer():
         self.set_customer_id()
         data = str(customer_id) + ":" + self.name +":"+ str(self.pnr) +":"
         with open(r'customers.txt', 'a') as file:
-            file.write(data)
+            file.write('\n' + data)
 
-    def change_name(newname, **line):
-        
-
+    def change_name(self, search_text, replace_text):
         with open(r'customers.txt', 'r') as file:
             data = file.read()
             data = data.replace(search_text, replace_text)
@@ -27,15 +25,8 @@ class Customer():
             file.write(data)
             
         print("Name is Changed")
-        """
-        global id_name_pnr_acount_data, customer_id, gname, gpnr
-        gname = new_name
-        id_name_pnr_acount_data[customer_id] = gname +":"+ str(gpnr) +":"
-        return id_name_pnr_acount_data[customer_id]
-        """
     
     def get_customer_info(self):
-        customer_info = {}
         with open("customers.txt", 'r') as file:
             data = [line.strip() for line in file]
             
@@ -53,14 +44,6 @@ class Customer():
             customer_info[customer_id] = info 
         return customer_info
     
-    
-        """global id_name_pnr_acount_data, customer_id, gname, gpnr
-        print("Customer data: ")
-        print(" ")
-        print("Pnr: ", gpnr)
-        print("Full name: ", gname)
-        print("All_Customers", id_name_pnr_acount_data)
-    """
     def set_customer_id(self):
         global customer_id
         count = 111111

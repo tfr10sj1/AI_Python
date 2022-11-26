@@ -54,18 +54,21 @@ class Bank:
     def change_customer_name(self, newname, newpnr):
         data = self._load()    
         for line in data: 
+            customer_id = line
             if str(newpnr) in data[line]:
-                customer_id, name, pnr,  *accounts = data[line].split(":")
-                search_text = line
-                print("search_text", customer_id, name, pnr,  accounts)
+                name, pnr,  *accounts = data[line].split(":")
+                search_text =  customer_id + ":" + name + ":" + pnr 
+                
                 replace_text = customer_id + ":" + newname + ":" + pnr 
 
                 for item in accounts:
                     replace_text += ":" + str(item)
-
+                    search_text += ":" + str(item)
+                    
                 print("replace_text", replace_text)
-               
-                #cu().change_name(newname, data[line])
+                print("search_text", search_text)
+                
+                cu().change_name(search_text, replace_text)
                 return True
         else:
             return False
@@ -100,27 +103,13 @@ class Bank:
             for line in data: 
                 if str(self.newpnr) in line:
                     customer_id, name, pnr,  *accounts = line.split(":")
-                    search_text = line
+                    search_text = customer_id + ":" + name + ":" + pnr
                     replace_text = customer_id + ":" + name + ":" + pnr 
                     
                     for item in accounts:
                         replace_text += ":" + str(item)
-                        
-            dic = ac().add_new_account()
-            print(dic)
-            
-            for item in dic:
-                replace_text += str(item) + ":" + str(dic[item])
-
-            file.close()
-
-            with open(r'customers.txt', 'r') as file:
-                data = file.read()
-                data = data.replace(search_text, replace_text)
-
-            with open(r'customers.txt', 'w') as file:
-                file.write(data)
-                print("New account is added")
+                        search_text += ":" + str(item)
+            ac().add_new_account(search_text, replace_text)          
         else:
             return -1
 
@@ -132,29 +121,34 @@ class Bank:
                 strofaccount = ""
                 for item in accounts:
                     strofaccount += ":" + str(item)
-                print(name, pnr, i, strofaccount)
+                #print(name, pnr, i, strofaccount)
                 return customer_info[i]
                 
-    def deposit(self, newpnr, newaccount_id, newamount):
-       """ self.newaccount_id = newaccount_id 
-        self.newpnr = newpnr
-        self.newamount = newamount 
-        from Bank import Bank as ba
-        line = ba().get_account(self.newpnr, self.newaccount_id)
-        #print(line)
-        customer_id, name, pnr,  *accounts = line.split(":")
-        replace_text = customer_id + ":" + name + ":" + pnr 
-
-        for item in accounts:
-            one = item.split("#")
-            #print(one, accounts.index(item))
-            if str(self.newaccount_id) in str(one):
-                print(accounts.index(item)+2)
-                print(accounts[accounts.index(item)+2])
-                balance, hastag = accounts[accounts.index(item)+2].split("#")
-                print(str(int(balance) + int(newamount)))
-        
-"""
+    def deposit(self, newpnr, newaccount_id, newamount):  
+        customer_info = self._load()
+        for i in customer_info:
+            if str(newpnr) in customer_info[i]:
+                name, pnr,  *accounts = customer_info[i].split(":")
+                replace_txt = str(i) + ":" + name + ":" + str(pnr)
+                search_txt = str(i) + ":" + name + ":" + str(pnr)
+                for item in accounts:
+                    search_txt += ":" + str(item)
+                    
+                for item in accounts:
+                    one = item.split("#")
+                    if str(newaccount_id) in str(one):
+                        balance, after_hashtag = accounts[accounts.index(item)+2].split("#")
+                        print("accounts[accounts.index(item)+2]", accounts[accounts.index(item)+2])
+                        newbalance = str(int(balance) + int(newamount))
+                        accounts[accounts.index(item)+2] = str(newbalance) + "#" 
+                        replace_txt += ":" + str(balance) + "#" + str(after_hashtag) + str(newaccount_id) 
+                    else:
+                        replace_txt += ":" + str(item)
+                print("search_txt " , search_txt)
+                print("replace_txt ", replace_txt)
+                
+                ac().deposit(newamount, search_txt, replace_txt)
+                
     def withdraw(pnr, account_id, amount):
         ""
     def close_account(pnr, account_id):

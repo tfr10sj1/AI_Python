@@ -1,16 +1,23 @@
 account_nbr_account_type_balance_list = {}
-account_nbr = 0
-balance = 0
-
 class Account(): 
     def __init__(self):
-        global account_nbr_acount_type_balance_list, account_nbr, balance 
+        global account_nbr_acount_type_balance_list
         self.account_type = "debit account" 
+ 
         
+    def add_new_account(self, search_text, replace_text):
+        account_nbr_account_type_balance_list[self.set_account_nbr()] = self.account_type +":"+str(0) + "#"
+        for item in account_nbr_account_type_balance_list:
+            replace_text += str(item) + ":" + str(account_nbr_account_type_balance_list[item])
+
+        with open(r'customers.txt', 'r') as file:
+            data = file.read()
+            data = data.replace(search_text, replace_text)
+
+        with open(r'customers.txt', 'w') as file:
+            file.write(data)
+            print("New account is added")
         
-    def add_new_account(self):
-        self.set_account_nbr()
-        account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+str(balance) + "#"
         return account_nbr_account_type_balance_list
     
     def show_account_info(self):
@@ -20,11 +27,19 @@ class Account():
         print(" ")
         print("Balance is: ", balance)
         
-    def deposit(self, amount):
+    def deposit(self, amount, search_txt, replace_txt):
         global account_nbr_acount_type_balance_list, account_nbr, balance 
         self.amount = amount
         balance += self.amount
         account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+ str(balance) + "#"
+        
+        with open(r'customers.txt', 'r') as file:
+            data = file.read()
+            data = data.replace(search_txt, replace_txt)
+
+        with open(r'customers.txt', 'w') as file:
+            file.write(data)
+            
         print("your balance is updated to: ",  balance)
         return account_nbr_account_type_balance_list
         
@@ -39,23 +54,16 @@ class Account():
             account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+ str(balance) + "#"
         return account_nbr_account_type_balance_list
     
-    def set_account_nbr(self, forced_account_nbr = None):
-        global balance, account_nbr
+    def set_account_nbr(self):
         count = 1001
-        self.forced_account_nbr = forced_account_nbr
-        
-        if forced_account_nbr == None:
-            with open("customers.txt", 'r') as file:
-                data = [line.strip() for line in file]
-                for line in data: 
-                    customer_id, name, pnr,  *accounts = line.split(":")
-                    for account in accounts:
-                        if "#" in account:
-                            count += 2
-                balance = 0
-                account_nbr = count
-        else:   
-            account_nbr = forced_account_nbr
+        with open("customers.txt", 'r') as file:
+            data = [line.strip() for line in file]
+            for line in data: 
+                customer_id, name, pnr,  *accounts = line.split(":")
+                for account in accounts:
+                    if "#" in account and str(count+1) not in accounts:
+                        count += 1
+        return  count
 
 
        
