@@ -69,7 +69,6 @@ class Bank:
                 print("search_text", search_text)
                 
                 cu().change_name(search_text, replace_text)
-                return True
         else:
             return False
 
@@ -99,17 +98,18 @@ class Bank:
         if str(newpnr) in contents:
             with open("customers.txt", 'r') as file:
                 data = [line.strip() for line in file]
-                
+            new_account_nbr = ac().set_account_nbr()
             for line in data: 
                 if str(self.newpnr) in line:
                     customer_id, name, pnr,  *accounts = line.split(":")
-                    search_text = customer_id + ":" + name + ":" + pnr
+                    search_text = customer_id + ":" + name + ":" + pnr 
                     replace_text = customer_id + ":" + name + ":" + pnr 
-                    
+              
                     for item in accounts:
                         replace_text += ":" + str(item)
                         search_text += ":" + str(item)
-            ac().add_new_account(search_text, replace_text)          
+                    
+            print(ac().add_new_account(search_text, replace_text))          
         else:
             return -1
 
@@ -121,7 +121,6 @@ class Bank:
                 strofaccount = ""
                 for item in accounts:
                     strofaccount += ":" + str(item)
-                #print(name, pnr, i, strofaccount)
                 return customer_info[i]
                 
     def deposit(self, newpnr, newaccount_id, newamount):  
@@ -147,8 +146,10 @@ class Bank:
                 print("search_txt " , search_txt)
                 print("replace_txt ", replace_txt)
                 
-                ac().deposit(newamount, search_txt, replace_txt)
-                
+                ac().deposit(search_txt, replace_txt)
+            else:
+                return False
+            
     def withdraw(pnr, account_id, amount):
         ""
     def close_account(pnr, account_id):

@@ -23,8 +23,9 @@ class Customer():
 
         with open(r'customers.txt', 'w') as file:
             file.write(data)
-            
+         
         print("Name is Changed")
+        return True
     
     def get_customer_info(self):
         with open("customers.txt", 'r') as file:

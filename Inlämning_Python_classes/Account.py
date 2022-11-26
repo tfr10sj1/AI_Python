@@ -3,7 +3,6 @@ class Account():
     def __init__(self):
         global account_nbr_acount_type_balance_list
         self.account_type = "debit account" 
- 
         
     def add_new_account(self, search_text, replace_text):
         account_nbr_account_type_balance_list[self.set_account_nbr()] = self.account_type +":"+str(0) + "#"
@@ -21,18 +20,15 @@ class Account():
         return account_nbr_account_type_balance_list
     
     def show_account_info(self):
-        print("Account number is: ", account_nbr)
+        pass
+        """print("Account number is: ", account_nbr)
         print(" ")
         print("Account type is: ", self.account_type)
         print(" ")
         print("Balance is: ", balance)
+        """
         
-    def deposit(self, amount, search_txt, replace_txt):
-        global account_nbr_acount_type_balance_list, account_nbr, balance 
-        self.amount = amount
-        balance += self.amount
-        account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+ str(balance) + "#"
-        
+    def deposit(self, search_txt, replace_txt):
         with open(r'customers.txt', 'r') as file:
             data = file.read()
             data = data.replace(search_txt, replace_txt)
@@ -44,6 +40,9 @@ class Account():
         return account_nbr_account_type_balance_list
         
     def withdraw(self, amount):
+        
+        
+        """
         global account_nbr_account_type_balance_list, account_nbr, balance 
         self.amount = amount
         if self.amount > balance:
@@ -53,7 +52,7 @@ class Account():
             print("your balance is updated to: ",  balance)
             account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+ str(balance) + "#"
         return account_nbr_account_type_balance_list
-    
+        """
     def set_account_nbr(self):
         count = 1001
         with open("customers.txt", 'r') as file:
@@ -63,7 +62,7 @@ class Account():
                 for account in accounts:
                     if "#" in account and str(count+1) not in accounts:
                         count += 1
-        return  count
+        return count
 
 
        
