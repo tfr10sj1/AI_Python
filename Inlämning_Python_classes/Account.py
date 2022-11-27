@@ -1,68 +1,54 @@
-account_nbr_account_type_balance_list = {}
+accounts= {}
+
 class Account(): 
-    def __init__(self):
-        global account_nbr_acount_type_balance_list
-        self.account_type = "debit account" 
+    def __init__(self, account_nbr, balance):
+        self.account_nbr = account_nbr
         
-    def add_new_account(self, search_text, replace_text):
-        account_nbr_account_type_balance_list[self.set_account_nbr()] = self.account_type +":"+str(0) + "#"
-        for item in account_nbr_account_type_balance_list:
-            replace_text += str(item) + ":" + str(account_nbr_account_type_balance_list[item])
-
-        with open(r'customers.txt', 'r') as file:
-            data = file.read()
-            data = data.replace(search_text, replace_text)
-
-        with open(r'customers.txt', 'w') as file:
-            file.write(data)
-            print("New account is added")
+        if self.check_if_account_nbr_exist(self.account_nbr):
+            self.balance = balance
+            self.update_values(self.account_nbr)
+        else:
+            print("Choose another one!")
         
-        return account_nbr_account_type_balance_list
-    
-    def show_account_info(self):
-        pass
-        """print("Account number is: ", account_nbr)
-        print(" ")
-        print("Account type is: ", self.account_type)
-        print(" ")
-        print("Balance is: ", balance)
-        """
-        
-    def deposit(self, search_txt, replace_txt):
-        with open(r'customers.txt', 'r') as file:
-            data = file.read()
-            data = data.replace(search_txt, replace_txt)
-
-        with open(r'customers.txt', 'w') as file:
-            file.write(data)
-            
-        print("your balance is updated to: ",  balance)
-        return account_nbr_account_type_balance_list
+    def deposit(self, amount):
+        self.amount = amount
+        self.balance += self.amount
+        self.update_values(self.account_nbr)
+        print("your balance is updated to: ", self.balance)
         
     def withdraw(self, amount):
-        
-        
-        """
-        global account_nbr_account_type_balance_list, account_nbr, balance 
         self.amount = amount
-        if self.amount > balance:
+        if self.amount > self.balance:
             print("Invalid request! your balance is less than ", self.amount)
         else:
-            balance -= self.amount
-            print("your balance is updated to: ",  balance)
-            account_nbr_account_type_balance_list[account_nbr] = self.account_type +":"+ str(balance) + "#"
-        return account_nbr_account_type_balance_list
-        """
-    def set_account_nbr(self):
-        count = 1001
-        with open("customers.txt", 'r') as file:
-            data = [line.strip() for line in file]
-            for line in data: 
-                customer_id, name, pnr,  *accounts = line.split(":")
-                for account in accounts:
-                    if "#" in account and str(count+1) not in accounts:
-                        count += 1
-        return count
-
-
+            self.balance -= self.amount
+            self.update_values(self.account_nbr)
+            print("your balance is updated to: ",  self.balance)
+            
+    def check_if_account_nbr_exist(self, account_nbr):
+        global accounts
+        self.account_nbr = account_nbr
+        if str(self.account_nbr) not in accounts:
+            print("Account_nbr: " + str(self.account_nbr) + " is new one!")
+            return True
+        else:
+            print("Account_nbr: " + str(self.account_nbr) + " already exists!")
+            return False
+        
+    def update_values(self, account_type):
+        global accounts
+        accounts[self.account_nbr] = ":" + "debit account" + ":" + str(self.balance) + "#"
        
+    def show_account_info(self, Searched_account_nbr):
+        global accounts
+        for account in accounts:
+            if str(Searched_account_nbr) == str(account):
+                temp1, account_type, balance = accounts[account].split(":")
+                pure_balance, temp2 = balance.split("#")
+                
+                print("Account number is: ", account)
+                print(" ")
+                print("Account type is: ", account_type)
+                print(" ")
+                print("Balance is: ", pure_balance)
+        

@@ -1,11 +1,7 @@
-id_name_pnr_acount_data = {}
-customer_id = 0
-gname = ""
-gpnr = 0
-
+id_name_pnr_acount_data = []
 
 class Customer():
-    def __init__(self):
+    def __init__(self, Customer_id, name, pnr):
         pass
      
     def add_new_customer(self, name, pnr):
