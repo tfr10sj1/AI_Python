@@ -2,74 +2,49 @@ from Customer import Customer as cu
 
 class Bank:
     def __init__(self):
+        self.customers = []
         self._load()
-    
+        
     def _load(self):     
-        customer_info = {}
         with open("customers.txt", 'r') as file:
             data = [line.strip() for line in file] 
         for line in data: 
             customer_id, name, pnr,  *accounts = line.split(":")
-            info = name + ":" + pnr
+            info = str(customer_id) +":"+ name + ":" + str(pnr)
             for item in accounts:
                 if("#" in item):
                     balance, new_account_nbr = item.split("#")
-                    info += ":" + balance + "#" + new_account_nbr
+                    info += ":" + balance + "#" + str(new_account_nbr)
                 else:
                     info += ":" + str(item)     
-            customer_info[customer_id] = info 
-        return customer_info
-    
+            self.customers.append(info) 
+        return self.customers
+    def get_customers(self):
+        for customer in self.customers: 
+            name, pnr,  *accounts = customer.split(":")
+            print(name, pnr)
+            
     def add_customer(self, customer_id, name, pnr):
-        customer_info = self._load()
-        for i in customer_info:
-            if str(pnr) not in customer_info[i] and str(customer_id) not in customer_info[i]:
-                cu(customer_id, name, pnr).show_customer_info(pnr)
-                data = str(customer_id) + ":" + name +":"+ str(pnr) +":"
-                with open(r'customers.txt', 'a') as file:
-                    file.write('\n' + data) 
+        for customer in self.customers:
+            if str(pnr) not in customer and str(customer_id) not in customer:
+                self.customers.append(cu(customer_id, name, pnr).get_customer())
+                print(self.customers)
                 return True
         else:
             print("You are already a customer!")
             return False
         
-    def get_customers(self):
-        customer_info = self._load()
-        for key in customer_info: 
-            name, pnr,  *accounts = customer_info[key].split(":")
-            print(name, pnr)
+    
             
-    def get_customer(self, newpnr):
-        customer_info = self._load()
-        strofaccount = ""
-        key = 0
-        info = [customer_info[key] for key in customer_info if str(newpnr) in customer_info[key]]
-        name = [i.split(':', 2)[0] for i in info]    
-        pnr = [i.split(':', 2)[1] for i in info]
-        accounts = [i.split(':', 2)[2] for i in info]
-        strofaccount += ":" + str([item for item in accounts])
-        print(name[0],":",pnr[0],strofaccount)
+    def get_customer(self, pnr):
+        customer_info = [customer for customer in self.customers if str(pnr) in customer]
+        if len(customer_info) != None or customer_info == 0:
+            print(customer_info[0])
         
     def change_customer_name(self, newname, newpnr):
         customer_info = self._load()
-        for i in customer_info:
-            if str(newpnr) in customer_info[i]:
-                name, pnr,  *accounts = customer_info[i].split(":")
-                search_text =  i + ":" + name + ":" + pnr 
-                replace_text = i + ":" + newname + ":" + pnr 
-
-                for item in accounts:
-                    replace_text += ":" + str(item)
-                    search_text += ":" + str(item)
-                    
-                print("replace_text", replace_text)
-                print("search_text", search_text)
-                
-                with open(r'customers.txt', 'r') as file:
-                    data = file.read()
-                    data = data.replace(search_text, replace_text)
-                with open(r'customers.txt', 'w') as file:
-                    file.write(data)
+        if [cu().change_name(newname, newpnr) for i in customer_info if str(newpnr) in customer_info[i]]:     
+            return True
         else:
             return False
 
