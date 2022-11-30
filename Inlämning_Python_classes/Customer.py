@@ -1,4 +1,4 @@
-from Account import Account as ac
+
 account_obj = ""
 class Customer():
 
@@ -7,10 +7,10 @@ class Customer():
         self.name = name
         self.pnr = pnr
      
-    def add_account(self, account_nbr, balance):
-        global account_obj
-        account_obj += ac(account_nbr, balance).get_account()
-        
+    """ def add_account(self, account_nbr, balance):
+            global account_obj
+            account_obj += ac(account_nbr, balance).get_account()
+    """    
     def change_name(self, new_name):
             self.name = new_name
         

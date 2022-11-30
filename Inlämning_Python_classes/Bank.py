@@ -1,11 +1,12 @@
 from Customer import Customer as cu
-
+from Account import Account as ac
+customers = []
 class Bank:
     def __init__(self):
-        self.customers = []
-        self._load()
-        
-    def _load(self):     
+        pass
+    
+    def _load(self): 
+        global customers
         with open("customers.txt", 'r') as file:
             data = [line.strip() for line in file] 
         for line in data: 
@@ -17,30 +18,31 @@ class Bank:
                     info += ":" + balance + "#" + str(new_account_nbr)
                 else:
                     info += ":" + str(item)     
-            self.customers.append(info) 
-        return self.customers
+            customers.append(info) 
+        return customers
+    
     def get_customers(self):
-        for customer in self.customers: 
+        for customer in customers: 
             name, pnr,  *accounts = customer.split(":")
             print(name, pnr)
             
     def add_customer(self, customer_id, name, pnr):
-        for customer in self.customers:
-            if str(pnr) not in customer and str(customer_id) not in customer:
-                self.customers.append(cu(customer_id, name, pnr).get_customer())
-                print(self.customers)
-                return True
+        
+        if str(pnr) not in str(customers):
+            customers.append(cu(customer_id, name, pnr).get_customer())
+            print(customers)
+            return True
         else:
             print("You are already a customer!")
             return False
-        
-    
-            
-    def get_customer(self, pnr):
-        customer_info = [customer for customer in self.customers if str(pnr) in customer]
-        if len(customer_info) != None or customer_info == 0:
-            print(customer_info[0])
-        
+
+    def get_customer(self, searched_pnr):
+        for customer in customers:
+            customer_id ,name, pnr,  *accounts = customer.split(":")
+            if str(searched_pnr) == str(pnr):
+                customerl = name, pnr, customer_id, accounts[0]
+                print(name, pnr, customer_id, accounts[0])
+                return 
     def change_customer_name(self, newname, newpnr):
         customer_info = self._load()
         if [cu().change_name(newname, newpnr) for i in customer_info if str(newpnr) in customer_info[i]]:     
@@ -67,15 +69,13 @@ class Bank:
                     print("Customer is removed")
 
     def add_account(self, newpnr, newaccount_nbr, newamount):
-        customer_info = self._load()
-        for i in customer_info:
-            if str(newpnr) in customer_info[i] and str(newaccount_nbr) not in customer_info[i]:
-                #cu.add_account(i, newaccount_nbr, newamount)
-                print("new account to ", i, "is added")
-                print(i, newaccount_nbr, newamount)
-                return True
+        if str(newpnr) in str(customers) and str(newaccount_nbr) not in (customers)
+            
+            customers[customers.index(self.get_customer(newpnr))] = (self.get_customer(newpnr) + ac(newaccount_nbr, newamount).get_account())
+            print(customers)
+            return True
         else:
-            print("You are already a customer!")
+            print("You have already this account!")
             return False
         
     def get_account(self, newpnr, newaccount_id):
