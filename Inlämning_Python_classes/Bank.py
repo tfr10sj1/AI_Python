@@ -1,6 +1,7 @@
 from Customer import Customer as cu
 from Account import Account as ac
 customers = []
+obj_customer = None 
 class Bank:
     def __init__(self):
         pass
@@ -27,9 +28,10 @@ class Bank:
             print(name, pnr)
             
     def add_customer(self, customer_id, name, pnr):
-        
+        global obj_customer
         if str(pnr) not in str(customers):
-            customers.append(cu(customer_id, name, pnr).get_customer())
+            obj_customer = cu(customer_id, name, pnr)
+            customers.append(obj_customer.get_customer())
             print(customers)
             return True
         else:
@@ -37,26 +39,22 @@ class Bank:
             return False
 
     def get_customer(self, searched_pnr):
+        global obj_customer
         for customer in customers:
             customer_id ,name, pnr,  *accounts = customer.split(":")
             if str(searched_pnr) == str(pnr):
                 customerl = name + ":" +  str(pnr) + ":" + str(customer_id) + ":" +  str(accounts)
-                return customerl
+                return obj_customer.get_customer()
             
     def change_customer_name(self, newname, newpnr):
-        changed_name = []
-        for l in customers:
-            if str(newpnr) in str(l):
-                customer_id, name, pnr, *accounts = l.split(":")
-                if pnr == newpnr:
-                    print(cu.change_name(newname).get_customer())
-                    changed_name = cu.change_name(newname).get_customer()
-                    for item in accounts:
-                        changed_name +=  item + ":"
-        #index = [customers.index(customer) for customer in customers if str(newpnr) in str(customer)][0]
-        print(changed_name)
-       # customers[index] = cu.change_name(newname).get_customer() 
-
+        global obj_customer
+        obj_customer.change_name(newname)
+        print(obj_customer.get_customer())
+        index1 = [customers.index(customer) for customer in customers if str(newpnr) in str(customer)][0]
+        print(customers[index1])
+        customers[index1] = obj_customer.get_customer()
+        return customers
+        
     def remove_customer(self, pnr):
         with open("customers.txt", 'r') as file:
             data = [line.strip() for line in file]
