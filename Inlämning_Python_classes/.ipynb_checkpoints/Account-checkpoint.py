@@ -1,8 +1,14 @@
+accounts = []
 class Account(): 
     def __init__(self, account_nbr, balance):
-        self.account_nbr = account_nbr
-        self.balance = balance
-        self.account_type = "debit account"
+        if str(account_nbr) not in str(accounts):
+            self.account_nbr = account_nbr
+            self.balance = balance
+            self.account_type = "debit account"
+            accounts.append(account_nbr)
+        else:
+            self.duplicate_account()
+        
         
     def deposit(self, amount):
         self.amount = amount
@@ -28,3 +34,6 @@ class Account():
         print(" ")
         print("Balance is: ", self.balance)
         
+    def duplicate_account(self):
+        print("This Account number is already used!!")
+        return False
