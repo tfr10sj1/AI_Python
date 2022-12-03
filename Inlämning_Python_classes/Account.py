@@ -9,7 +9,6 @@ class Account():
         else:
             self.duplicate_account()
         
-        
     def deposit(self, amount):
         self.amount = amount
         self.balance += self.amount
