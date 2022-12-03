@@ -49,11 +49,8 @@ class Bank:
     def change_customer_name(self, newname, newpnr):
         global obj_customer
         obj_customer.change_name(newname)
-        print(obj_customer.get_customer())
         index1 = [customers.index(customer) for customer in customers if str(newpnr) in str(customer)][0]
-        print(customers[index1])
         customers[index1] = obj_customer.get_customer()
-        return customers
         
     def remove_customer(self, pnr):
         with open("customers.txt", 'r') as file:
