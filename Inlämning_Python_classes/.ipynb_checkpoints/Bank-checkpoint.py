@@ -1,9 +1,11 @@
 from Customer import Customer as cu
 from Account import Account as ac
+#from collections import namedtuple as nt
 
 customers = []
-obj_customer = None 
-obj_account = None
+obj_customer = [] 
+obj_account = []
+
 class Bank:
     def __init__(self):
         pass
@@ -40,10 +42,13 @@ class Bank:
             print("You are already a customer!")
             return False
 
-    def get_customer(self, searched_pnr):
-        global obj_customer
-        index1 = [customer if str(searched_pnr) in str(customer) else False for customer in customers][0]
-        return index1
+    def get_customer(self, newpnr):
+        global obj_customer, obj_account
+        #index1 = [customer if str(searched_pnr) in str(customer) else False for customer in customers][0]
+        if str(newpnr) in str(obj_customer.get_customer()):
+            customer_id, name, pnr, *extra = str(obj_customer.get_customer()).split(":")
+            result = name +":"+ str(pnr) + str(obj_account.get_account())
+            return result
   
     def change_customer_name(self, newname, newpnr):
         global obj_customer
@@ -86,7 +91,8 @@ class Bank:
         global obj_account, obj_customer
         if str(newpnr) in str(customers) and str(newaccount_nbr) not in str(customers):
             index1 = [ customers.index(customer) for customer in customers if str(newpnr) in str(customer)][0]
-            customers[index1] = customers[index1] + ac(newaccount_nbr, newamount).get_account()
+            obj_account = ac(newaccount_nbr, newamount)
+            customers[index1] = customers[index1] + obj_account.get_account()
             print(customers)
         else:
             return -1
@@ -100,21 +106,8 @@ class Bank:
         return a[0].replace('"', "")
              
     def deposit(self, newpnr, newaccount_id, newamount): 
-        global obj_customer
-        """index1 = [customer if str(newpnr) in str(customer) and str(newaccount_id) in str(customer) else False for customer in customers][0]
-        customer_id, name, pnr, *acco = index1.split(":")
-        x = [account for account in str(acco).split("#") if str(newaccount_id) in account]
-        ac_nbr, at = x[0].split("', 'debit account', '")
-        print(x)
-        print(str(x).replace(",", ":").replace('["[', "").replace('"]', "'").replace("'", '') + "#")
+        global obj_customer, obj_account
         
-        account = ac(newaccount_id, newamount)
-        account.deposit(int(float(at)))
-        print(account.get_account())
-        #index1.replace()
-        #print(index1.replace())"""
-        
-    def withdraw(pnr, account_id, amount):
-        pass
-    def close_account(pnr, account_id):
-        pass
+        if str(newpnr) in str(obj_customer.get_customer()) and str(newaccount_id) in str(obj_account.get_account()):
+            obj_account.deposit(newamount)
+            print(str(obj_customer.get_customer())+str(obj_account.get_account()))
