@@ -3,8 +3,8 @@ class Customer():
 
     def __init__(self, customer_id, name, pnr):
         global customers
+        self.customer_id = customer_id
         if str(customer_id) not in str(customers):
-            self.customer_id = customer_id
             self.name = name
             self.pnr = pnr
             customers.append(customer_id)
